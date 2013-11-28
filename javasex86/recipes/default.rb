@@ -16,3 +16,28 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+# Instal javase
+windows_Package "jre-7u40-windows-i586" do
+  source "http://pigramsoftware.no-ip.biz/repo/jdk-7u45-windows-i586.exe"
+  options "/qn"
+  installer_type :custom
+  action :install
+  not_if {reboot_pending?}
+end
+
+# disable java update
+registry_key "HKEY_LOCAL_MACHINE\\SOFTWARE\\JavaSoft\\Java Update\\Policy" do
+  values [{
+    :name => "EnableJavaUpdate",
+    :type => :dword,
+    :data => 00000000
+    }]
+  recursive true
+  action :create
+end
+
+# if feature installs, schedule a reboot at end of chef run
+windows_reboot 60 do
+  reason 'cause chef said so'
+  only_if {reboot_pending?}
+end 

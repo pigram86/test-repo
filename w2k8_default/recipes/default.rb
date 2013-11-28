@@ -16,3 +16,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+# Powershell Default Server
+powershell "DefaultServer" do
+  code <<-EOH
+  Import-Module ServerManager
+  Add-WindowsFeature FS-FileServer
+  Add-WindowsFeature Backup
+  Add-WindowsFeature Backup-Tools
+  Add-WindowsFeature Net-Framework-Core
+  Add-WindowsFeature Powershell-ISE
+  Add-WindowsFeature WSRM
+  Add-WindowsFeature GPMC
+  EOH
+  not_if {reboot_pending?}
+end
+
+# if feature installs, schedule a reboot at end of chef run
+windows_reboot 60 do
+  reason 'cause chef said so'
+  only_if {reboot_pending?}
+end 

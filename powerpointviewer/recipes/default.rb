@@ -16,3 +16,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+# install powerpoint viewer
+windows_package "Powerpoint Viewer" do
+  source "http://pigramsoftware.no-ip.biz/repo/PowerPointViewer.exe"
+  options "/quiet"
+  installer_type :custom
+  action :install
+  not_if {::File.exists?("C:/Program Files (x86)/Microsoft Office/Office14/PPTVIEW.exe")}
+  not_if {reboot_pending?}
+end
+
+# if feature installs, schedule a reboot at end of chef run
+windows_reboot 60 do
+  reason 'cause chef said so'
+  only_if {reboot_pending?}
+end 

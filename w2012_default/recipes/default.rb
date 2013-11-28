@@ -16,3 +16,45 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+# install default roles w/dism
+# install file-services
+windows_feature "File-Services" do
+  action :install
+  not_if {reboot_pending?}
+end
+
+# install corefileserver
+windows_feature "CoreFileServer" do
+  action :install
+  not_if {reboot_pending?}
+end 
+
+# install windowsserverbackup
+windows_feature "WindowsServerBackup" do
+  action :install
+  not_if {reboot_pending?}
+end
+
+# install wsrm
+windows_feature "WSRM" do
+  action :install
+  not_if {reboot_pending?}
+end
+
+# install net 3 features
+windows_feature "NetFx3ServerFeatures" do
+  action :install
+  not_if {reboot_pending?}
+end
+
+# install net 3
+windows_feature "NetFx3" do
+  action :install
+  not_if {reboot_pending?}
+end
+
+# if feature installs, schedule a reboot at end of chef run
+windows_reboot 60 do
+  reason 'cause chef said so'
+  only_if {reboot_pending?}
+end 

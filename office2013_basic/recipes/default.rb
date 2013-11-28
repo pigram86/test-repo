@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: w2k8_rds
+# Cookbook Name:: office2013_basic
 # Recipe:: default
 #
 # Copyright (C) 2013 Todd Pigram
@@ -16,30 +16,39 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# install RDS
-powershell "RDS" do
+# make dir
+windows_batch "make dir" do
   code <<-EOH
-  Import-Module ServerManager
-  Add-WindowsFeature RDS-RD-Server
+  mkdir c:\\temp
+  cd c:\\temp
   EOH
+  not_if {::File.exists?("C:/Program Files/Microsoft Office/Office15/WINWORD.exe")}
   not_if {reboot_pending?}
 end
 
-
-# Install desktop experience
-powershell "desktop_experience" do
-  code <<-EOH
-  Import-Module ServerManager
-  Add-WindowsFeature Desktop-Experience
-  EOH
+# unzip office to c:\temp
+windows_zipfile "c:/temp" do
+  source "http://pigramsoftware.no-ip.biz/repo/off_13_x64.zip"
+  action :unzip
+  not_if {::File.exists?("C:/Program Files/Microsoft Office/Office15/WINWORD.exe")}
   not_if {reboot_pending?}
 end
 
-powershell "XPS" do
+# Install office
+windows_batch "install" do
   code <<-EOH
-  Import-Module ServerManager
-  Add-WindowsFeature XPS-Viewer
+  cd c:\\temp
+  c:\\temp\\setup.exe
   EOH
+  not_if {::File.exists?("C:/Program Files/Microsoft Office/Office15/WINWORD.exe")}
+  not_if {reboot_pending?}
+end
+
+windows_batch "remove c:\\temp" do
+  code <<-EOH
+  rmdir /s /q c:\\temp
+  EOH
+  not_if {::File.exists?("C:/Program Files/Microsoft Office/Office15/WINWORD.exe")}
   not_if {reboot_pending?}
 end
 

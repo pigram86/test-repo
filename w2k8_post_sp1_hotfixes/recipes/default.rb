@@ -16,3 +16,44 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+# download patches to server
+# make dir
+windows_batch "make dir" do
+  code <<-EOH
+  mkdir c:\\PostSP1
+  EOH
+  not_if {::File.exists?("C:/PostSp1/sleep.exe")}
+  not_if {reboot_pending?}
+end
+
+# unzip patches to c:\
+windows_zipfile "c:/PostSP1" do
+  source "http://pigramsoftware.no-ip.biz/repo/PostSP1.zip"
+  action :unzip
+  not_if {::File.exists?("C:/PostSp1/sleep.exe")}
+  not_if {reboot_pending?}
+end
+
+# Install office
+windows_batch "install" do
+  code <<-EOH
+  cd c:\\PostSp1
+  c:\\postsp1\\installpostsp1.cmd
+  EOH
+  not_if {::File.exists?("C:/PostSp1_patches.log")}
+  not_if {reboot_pending?}
+end
+
+windows_batch "remove c:\\PostSp1" do
+  code <<-EOH
+  rmdir /s /q c:\\PostSp1
+  EOH
+  only_if {::File.exists?("C:/PostSp1_patches.log")}
+  not_if {reboot_pending?}
+end
+
+# if feature installs, schedule a reboot at end of chef run
+windows_reboot 60 do
+  reason 'cause chef said so'
+  only_if {reboot_pending?}
+end

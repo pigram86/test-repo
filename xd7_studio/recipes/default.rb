@@ -16,3 +16,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+windows_zipfile "c:/" do
+  source "http://pigramsoftware.no-ip.biz/repo/XD71.zip"
+  action :unzip
+  not_if {::File.exists?("c:/XenDesktop7_1")}
+end
+
+windows_batch "XD7 CRTL" do
+  code <<-EOH
+  cd c:\\XenDesktop7_1
+  c:\\XenDesktop7_1\\x64\\XenDesktopSetup\\XenDesktopServerSetup.exe /quiet /COMPONENTS DESKTOPSTUDIO /CONFIGURE_FIREWALL
+  EOH
+  not_if {reboot_pending?}
+end

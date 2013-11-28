@@ -16,3 +16,33 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+# install xps
+windows_feature "Xps-Foundation-Xps-Viewer" do
+  action :install
+  not_if {reboot_pending?}
+end
+
+# install RDS 
+windows_feature "Remote-Desktop-Services" do
+  action :install
+  not_if {reboot_pending?}
+end
+
+#install appserver
+windows_feature "AppServer" do
+  action :install
+  not_if {reboot_pending?}
+end
+
+# install desktop experience
+windows_feature "DesktopExperience" do
+  action :install
+  not_if {reboot_pending?}
+end
+
+
+# if feature installs, schedule a reboot at end of chef run
+windows_reboot 60 do
+  reason 'cause chef said so'
+  only_if {reboot_pending?}
+end 

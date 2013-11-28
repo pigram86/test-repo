@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: excelviewer
+# Cookbook Name:: silverlight_x64
 # Recipe:: default
 #
 # Copyright (C) 2013 Todd Pigram
@@ -16,13 +16,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# install excel viewer
-windows_package "Excel Viewer" do
-  source "http://pigramsoftware.no-ip.biz/repo/ExcelViewer.exe"
-  options "/quiet"
+# install silverlight x64
+windows_package "Silverlight x64" do
+  source "http://pigramsoftware.no-ip.biz/repo/Silverlight_x64.exe"
+  options "/q"
   installer_type :custom
   action :install
-  not_if {::File.exists?("C:/Program Files (x86)/Microsoft Office/Office12/XLVIEW.exe")}
   not_if {reboot_pending?}
 end
 
