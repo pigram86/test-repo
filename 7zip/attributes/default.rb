@@ -1,0 +1,1 @@
+default[:7zip][:7zip_url] = "http://downloads.sourceforge.net/sevenzip/7z920-x64.msi"

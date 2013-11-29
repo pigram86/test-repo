@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: 7zip
+# Cookbook Name:: apps_basic
 # Recipe:: default
 #
 # Copyright (C) 2013 Todd Pigram
@@ -16,15 +16,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# install 7zip
-windows_package "7-Zip for 64-bit Windows x64" do
-  source node[:7zip][:7zip_url]
-  action :install
-  not_if {reboot_pending?}
-end
 
-# if feature installs, schedule a reboot at end of chef run
-windows_reboot 60 do
-  reason 'reboot needed'
-  only_if {reboot_pending?}
-end 

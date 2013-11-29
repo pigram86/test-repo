@@ -1,8 +1,9 @@
-name             '7zip'
+name             'apps_basic'
 maintainer       'Todd Pigram'
 maintainer_email 'todd@toddpigram.com'
 license          'Apache 2.0'
-description      'Installs/Configures 7zip'
+description      'Installs/Configures apps_basic'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '0.2.0'
+version          '0.1.0'
 depends          "windows"
+
