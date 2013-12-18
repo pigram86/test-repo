@@ -20,5 +20,9 @@ bin/*
 Icon
 ._*
 .Spotlight-V100
+<<<<<<< HEAD
 .Trashes
 
+=======
+.Trashes
+>>>>>>> d69eb37d11c0503075661b052fcf9c9f01b35586

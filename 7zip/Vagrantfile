@@ -2,6 +2,7 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
+<<<<<<< HEAD
   # All Vagrant configuration is done here. The most common configuration
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
@@ -69,6 +70,31 @@ Vagrant.configure("2") do |config|
   # An array of symbols representing groups of cookbook described in the Vagrantfile
   # to skip installing and copying to Vagrant's shelf.
   # config.berkshelf.except = []
+=======
+  config.vm.hostname = "7zip-berkshelf"
+  config.vm.box = "Pigram86-w2k8r2std"
+  config.vm.box_url = "http://pigramsoftware.no-ip.biz/repo/Pigram86-w2k8r2std.box"
+  config.omnibus.chef_version = :latest
+  config.vm.network :private_network, ip: "33.33.33.10"
+  config.vm.guest = :windows
+  config.windows.halt_timeout = 25
+  config.winrm.username = "vagrant"
+  config.winrm.password = "vagrant" 
+  config.vm.network :forwarded_port, guest: 5985, host: 5985
+  config.vm.boot_timeout = 360
+  config.berkshelf.enabled = true
+
+  config.vm.provider :virtualbox do |p|  
+    p.gui = true 
+  end
+
+  config.vm.provider :virtualbox do |p|  
+    p.gui = true  
+    v.customize ["modifyvm", :id, "--vram", "256"]  
+    v.customize ["setextradata", "global", "GUI/MaxGuestResolution", "any"]  
+    v.customize ["setextradata", :id, "CustomVideoMode1", "1024x768x32"] 
+  end     
+>>>>>>> d69eb37d11c0503075661b052fcf9c9f01b35586
 
   config.vm.provision :chef_solo do |chef|
     chef.json = {

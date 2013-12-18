@@ -1,0 +1,1 @@
+default[:chrome][:url] = "https://dl.google.com/edgedl/chrome/install/GoogleChromeStandaloneEnterprise.msi"

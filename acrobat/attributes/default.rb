@@ -1,0 +1,2 @@
+default[:acrobat][:install_url] = "http://pigramsoftware.no-ip.biz/repo/AdbeRdr11000_en_US.msi"
+default[:acrobat][:featurelockdown] = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Policies\\Adobe\\Acrobat Reader\\11.0\\FeatureLockDown"

@@ -18,13 +18,14 @@
 #
 # Install acrobat Reader 11.0
 windows_package "AdbeRdr11000_en_US" do
-  source "http://pigramsoftware.no-ip.biz/repo/AdbeRdr11000_en_US.msi"
+  source node[:acrobat][:install_url]
   action :install
+  not_if {::File.exists?("C:/Program Files (x86)/Adobe/Reader 11.0/Reader/AcroRd32.exe")}
   not_if {reboot_pending?}
 end
 
 # disable acrobat update
-registry_key "HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Policies\\Adobe\\Acrobat Reader\\11.0\\FeatureLockDown" do
+registry_key node[:acrobat][:featurelockdown] do
   values [{
     :name => "bUpdater",
     :type => :dword,

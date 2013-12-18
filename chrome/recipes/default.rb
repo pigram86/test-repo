@@ -18,8 +18,9 @@
 #
 # install google chrome
 windows_package "Google Chrome" do 
-  source "https://dl.google.com/edgedl/chrome/install/GoogleChromeStandaloneEnterprise.msi"
+  source node[:chrome][:url]
   action :install
+  not_if {::File.exists?("C:/Program Files (x86)/Google/Chrome/Application/chrome.exe")}
   not_if {reboot_pending?}
 end
 
